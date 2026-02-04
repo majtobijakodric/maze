@@ -22,9 +22,23 @@ function mouse_pos(event) {
 
 // When mouse moves on canvas
 canvas.onmousemove = function (event) {
-    let pos = mouse_pos(event);
-    collisionCheck(pos, ctx);
-    drawOnCanvas(pos.x, pos.y, 'black', ctx);
+
+    if (lastPos === null) return;
+
+    const pos = mouse_pos(event);
+    if (collisionCheck(pos, ctx)) {
+        // Swal.fire({
+        //     title: 'Error!',
+        //     text: 'Do you want to continue',
+        //     icon: 'error',
+        //     confirmButtonText: 'Cool'
+        // })
+
+        console.log('Wall has been hit');
+
+    }
+
+    drawOnCanvas(pos.x, pos.y, 'yellow', ctx);
 }
 
 // When mouse clicks on canvas
@@ -49,16 +63,17 @@ function drawOnCanvas(x, y, color, ctx) {
 }
 
 function collisionCheck(pos, ctx) {
-    let x = pos.x;
-    let y = pos.y;
+    // return true if detected color is black (1 0 1)
+    return getPixelColor(pos, ctx, '1 0 1') === '1 0 1' ? true : false;
+}
 
-    let canvasWidth = ctx.canvas.width;
-    let canvasHeight = ctx.canvas.height;
+function getPixelColor(pos, ctx, color) {
+    // Third atribute should be '1 0 1' for black
 
+    // Gets pixel data on pixel pos.x & pos.y
+    const pixel = ctx.getImageData(pos.x, pos.y, 1, 1);
 
-    let ImageData = ctx.getImageData(x, y, canvasHeight, canvasWidth)
-
-    console.log(ImageData);
-
-
+    // Puts the rgb values formated like "R G B" in to rgbColor
+    const rgbColor = `${pixel.data[0]} ${pixel.data[1]} ${pixel.data[2]}`;
+    return rgbColor;
 }
