@@ -8,7 +8,7 @@ let lastPos = null;
 
 let colorBoolean = true;
 
-drawMaze('black', ctx); // this function is called in drawMaze.js (drawMaze.js must load before main.js)
+drawMaze('black', 'yellow', ctx); // this function is called in drawMaze.js (drawMaze.js must load before main.js)
 
 function mouse_pos(event) {
     const rect = canvas.getBoundingClientRect(); // Gets canvases position

@@ -1,4 +1,4 @@
-function drawMaze(color, ctx) {
+function drawMaze(color, startColor, ctx) {
     // All of the maze wall segments (x1,y1) -> (x2,y2)
     // These coordinates come from the 30x30 maze file.
     const mazeLines = [
@@ -440,8 +440,6 @@ function drawMaze(color, ctx) {
         maxY = Math.max(maxY, line.y1, line.y2);
     }
 
-    console.log(minX, minY, maxX, maxY);
-
     const mazeWidth = maxX - minX;
     const mazeHeight = maxY - minY;
 
@@ -451,7 +449,7 @@ function drawMaze(color, ctx) {
 
     ctx.save(); // If this is not here -> mouse drawing won't work
     ctx.setTransform(scaleX, 0, 0, scaleY, -minX * scaleX, -minY * scaleY);
-    
+
     /*
     scaleX -> scales on x
     0 -> !(makes it go sideways)
@@ -468,6 +466,8 @@ function drawMaze(color, ctx) {
     ctx.scale(scaleX, scaleY);    
     */
 
+    // Draw the strat box
+    drawStartSquare('yellow', startColor, 30, ctx);
 
     ctx.strokeStyle = color;
     ctx.lineWidth = 2;
@@ -481,6 +481,23 @@ function drawMaze(color, ctx) {
         ctx.stroke();
     });
 
+
     // Restore canvas to its original state
     ctx.restore();
+}
+
+function drawStartSquare(color, startColor, mazeSize, ctx) {
+    // mazeSize = maze dimensions
+    const squareSize = (ctx.canvas.width / mazeSize) - 7;
+    ctx.fillStyle = startColor;
+    ctx.strokeStyle = startColor;
+
+    ctx.beginPath();
+    ctx.moveTo(3, 3);
+    ctx.lineTo(squareSize + 1, 3);
+    ctx.lineTo(squareSize + 1, squareSize + 1);
+    ctx.lineTo(3, squareSize + 1);
+    ctx.lineTo(3, 3);
+    ctx.stroke();
+    ctx.fill();
 }
