@@ -424,6 +424,10 @@ function drawMaze(color, startColor, ctx) {
     const canvasWidth = ctx.canvas.width;
     const canvasHeight = ctx.canvas.height;
 
+    // Fill the full canvas background before scaling/transforming.
+    ctx.fillStyle = 'gray';
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
     // Find the minimum/maximum X and Y values of the maze
     // so we can scale it to fit the canvas.
     let minX = Infinity;
@@ -465,10 +469,10 @@ function drawMaze(color, startColor, ctx) {
 
     ctx.scale(scaleX, scaleY);    
     */
-
-    // Draw the strat box
-    drawStartSquare('yellow', startColor, 30, ctx);
-
+   
+   // Draw the strat box
+   drawStartSquare('yellow', startColor, 30, ctx);
+   
     ctx.strokeStyle = color;
     ctx.lineWidth = 2;
     ctx.lineCap = 'square';
@@ -480,6 +484,8 @@ function drawMaze(color, startColor, ctx) {
         ctx.lineTo(line.x2, line.y2);
         ctx.stroke();
     });
+
+
 
 
     // Restore canvas to its original state
