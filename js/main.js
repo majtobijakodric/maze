@@ -33,7 +33,10 @@ canvas.onmousemove = function (event) {
     if (lastPos === null) return;
 
     const pos = mouse_pos(event);
-    if (collisionCheck(pos, ctx)) {
+
+    if (getPixelColor(pos, ctx) === '0 0 0') {
+
+
         // Swal.fire({
         //     title: 'Error!',
         //     text: 'Do you want to continue',
@@ -44,7 +47,6 @@ canvas.onmousemove = function (event) {
         // });
 
         console.log('Wall has been hit');
-
     }
 
     drawOnCanvas(pos.x, pos.y, 'yellow', ctx);
@@ -57,11 +59,12 @@ canvas.onmousedown = function (event) {
 }
 
 function drawOnCanvas(x, y, color, ctx) {
-    if (lastPos === null) return; // Return at the start when lastPost = null (happens before mouse is clicked)
+    // Returns before first mouse click && Returns if you don't start at the start box 
+    if (lastPos === null && getPixelColor(pos, ctx) === '255 254 1') return;
 
     ctx.strokeStyle = color;
     ctx.lineWidth = 2;
-    ctx.lineCap = 'round';
+    ctx.lineCap = 'butt';
 
     ctx.beginPath();
     ctx.moveTo(lastPos.x, lastPos.y);
@@ -71,30 +74,37 @@ function drawOnCanvas(x, y, color, ctx) {
     lastPos = { x: x, y: y };
 }
 
-function collisionCheck(pos, ctx) {
-    // return true if detected color is black (1 0 1)
-    return getPixelColor(pos, ctx, '1 0 1') === '1 0 1' ? true : false;
-}
+function getPixelColor(pos, ctx) {
+    // Third atribute should be '0 0 0' for black
 
-function getPixelColor(pos, ctx, color) {
-    // Third atribute should be '1 0 1' for black
-
-    // Gets pixel data on pixel pos.x & pos.y
+    // Gets pixel data on pixel pos.x & pos.y, (1, 1 is the width and length of the rectangle)
     const pixel = ctx.getImageData(pos.x, pos.y, 1, 1);
 
     // Puts the rgb values formated like "R G B" in to rgbColor
     const rgbColor = `${pixel.data[0]} ${pixel.data[1]} ${pixel.data[2]}`;
+    console.log(rgbColor);
+    
     return rgbColor;
 }
 
 
 function startTimer() {
-
     if (running) {
         console.log('Timer running');
-
         time -= 100;
-        timeText.textContent = 'Time left ' + (time / 1000);
+        if (time == 0) {
+            // Swal.fire({
+            //     title: 'Error!',
+            //     text: 'Do you want to continue',
+            //     icon: 'error',
+            //     confirmButtonText: 'OK'
+            // }).then(() => {
+            //     drawMaze('black', 'yellow', ctx);
+            // });
+            console.log('Time is up');
+
+        } else
+            timeText.textContent = 'Time left ' + (time / 1000);
     }
 }
 
@@ -111,6 +121,7 @@ function resumeTimer() {
 function resetTimer() {
     time = 60000;
     timeText.textContent = 'Time left ' + (time / 1000);
+    running = false;
     console.log('Timer reset');
 }
 
