@@ -1,5 +1,11 @@
 const canvas = document.getElementById('canvas');
 
+// Timer stuff
+const timeText = document.getElementById('timeText');
+let time = 60000; // 60 sec
+let running = true;
+
+
 canvas.width = canvas.offsetWidth;
 canvas.height = canvas.offsetHeight;
 
@@ -8,7 +14,8 @@ let lastPos = null;
 
 let colorBoolean = true;
 
-drawMaze('black', 'yellow', ctx); // this function is called in drawMaze.js (drawMaze.js must load before main.js)
+// black = maze color, yellow = start box color
+drawMaze('black', 'yellow', ctx); // This function is called in drawMaze.js (drawMaze.js must load before main.js)
 
 function mouse_pos(event) {
     const rect = canvas.getBoundingClientRect(); // Gets canvases position
@@ -31,8 +38,10 @@ canvas.onmousemove = function (event) {
         //     title: 'Error!',
         //     text: 'Do you want to continue',
         //     icon: 'error',
-        //     confirmButtonText: 'Cool'
-        // })
+        //     confirmButtonText: 'OK'
+        // }).then(() => {
+        //     drawMaze('black', 'yellow', ctx);
+        // });
 
         console.log('Wall has been hit');
 
@@ -77,3 +86,32 @@ function getPixelColor(pos, ctx, color) {
     const rgbColor = `${pixel.data[0]} ${pixel.data[1]} ${pixel.data[2]}`;
     return rgbColor;
 }
+
+
+function startTimer() {
+
+    if (running) {
+        console.log('Timer running');
+
+        time -= 100;
+        timeText.textContent = 'Time left ' + (time / 1000);
+    }
+}
+
+function pauseTimer() {
+    running = false;
+    console.log('Timer paused');
+}
+
+function resumeTimer() {
+    running = true;
+    console.log('Timer resumed');
+}
+
+function resetTimer() {
+    time = 60000;
+    timeText.textContent = 'Time left ' + (time / 1000);
+    console.log('Timer reset');
+}
+
+

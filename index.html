@@ -13,13 +13,19 @@
     <div id="main">
         <div>
             <h1 class="jetbrains-mono">Maze Game</h1>
-
+            <p id="timeText">Time left:</p>
             <div id="divCanvas">
                 <canvas id="canvas"></canvas>
             </div>
 
-            <!-- Add functionality -->
-            <button onclick="timerStart()">Start timer</button>
+            <div id="buttons-div">
+                <button onclick="setInterval(startTimer, 100)">Start timer</button>
+                <button onclick="resetTimer()">Reset Timer</button>
+                <button onclick="resumeTimer()">Resume Timer</button>
+                <button onclick="pauseTimer()">Pause Timer</button>
+            </div>
+
+
         </div>
 
     </div>
