@@ -1,0 +1,65 @@
+function updateTimerText() {
+    // Updates timer text in seconds
+    timeText.textContent = 'Time left: ' + Math.ceil(time / 1000);
+}
+
+function resetRoundState() {
+    // Resets game and timer state for a fresh round
+    time = ROUND_DURATION_MS;
+    lastPos = null;
+    drawMaze('black', 'yellow', ctx);
+    updateTimerText();
+}
+
+function stopTimerInterval() {
+    // Clears running timer interval if it exists
+    if (timerIntervalId === null) return;
+
+    clearInterval(timerIntervalId);
+    timerIntervalId = null;
+}
+
+function stopRound() {
+    // Stops active round and blocks drawing
+    isRoundActive = false;
+    stopTimerInterval();
+    lastPos = null;
+}
+
+function startRound() {
+    // Prevents duplicate intervals and starts a fresh round
+    stopTimerInterval();
+    resetRoundState();
+    isRoundActive = true;
+    timerIntervalId = setInterval(tickTimer, 100);
+}
+
+function tickTimer() {
+    // Returns if round is not active
+    if (!isRoundActive) return;
+
+    time -= 100;
+    if (time < 0) time = 0;
+
+    updateTimerText();
+
+    if (time <= 0) {
+        handleTimeExpired();
+    }
+}
+
+function handleTimeExpired() {
+    // Handles timeout state and resets after modal confirmation
+    stopRound();
+
+    Swal.fire({
+        title: 'Time is up!',
+        text: 'The bomb exploded.',
+        icon: 'error',
+        confirmButtonText: 'Try again'
+    }).then(() => {
+        resetRoundState();
+    });
+
+    console.log('Time is up');
+}
