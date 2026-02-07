@@ -470,8 +470,9 @@ function drawMaze(color, startColor, ctx) {
     ctx.scale(scaleX, scaleY);    
     */
    
-   // Draw the strat box
-   drawStartSquare('yellow', startColor, 30, ctx);
+   // Draw the start box
+   drawStartSquare(startColor, startColor, 30, ctx);
+   drawGoalSquare(startColor, 30, ctx);
    
     ctx.strokeStyle = color;
     ctx.lineWidth = 2;
@@ -504,6 +505,25 @@ function drawStartSquare(color, startColor, mazeSize, ctx) {
     ctx.lineTo(squareSize + 1, squareSize + 1);
     ctx.lineTo(3, squareSize + 1);
     ctx.lineTo(3, 3);
+    ctx.stroke();
+    ctx.fill();
+}
+
+function drawGoalSquare(goalColor, mazeSize, ctx) {
+    // mazeSize = maze dimensions
+    const squareSize = (ctx.canvas.width / mazeSize) - 7;
+    const x = 482 - squareSize - 1;
+    const y = 482 - squareSize - 1;
+
+    ctx.fillStyle = goalColor;
+    ctx.strokeStyle = goalColor;
+
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(x + squareSize, y);
+    ctx.lineTo(x + squareSize, y + squareSize);
+    ctx.lineTo(x, y + squareSize);
+    ctx.lineTo(x, y);
     ctx.stroke();
     ctx.fill();
 }
