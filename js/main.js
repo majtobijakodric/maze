@@ -34,19 +34,19 @@ canvas.onmousemove = function (event) {
 
     const pos = mouse_pos(event);
 
-    if (getPixelColor(pos, ctx) === '0 0 0') {
-
-
-        // Swal.fire({
-        //     title: 'Error!',
-        //     text: 'Do you want to continue',
-        //     icon: 'error',
-        //     confirmButtonText: 'OK'
-        // }).then(() => {
-        //     drawMaze('black', 'yellow', ctx);
-        // });
+    // Checks if any point in this mouse segment touches a wall
+    if (lineHitsWall(lastPos, pos, ctx)) {
+        Swal.fire({
+            title: 'Error!',
+            text: 'Do you want to continue',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        }).then(() => {
+            drawMaze('black', 'yellow', ctx);
+        });
 
         console.log('Wall has been hit');
+        return;
     }
 
     drawOnCanvas(pos.x, pos.y, 'yellow', ctx);
@@ -55,12 +55,19 @@ canvas.onmousemove = function (event) {
 // When mouse clicks on canvas
 canvas.onmousedown = function (event) {
     let pos = mouse_pos(event);
+
+    // Start is allowed only on the yellow box
+    if (!isStartPixel(pos, ctx)) {
+        lastPos = null;
+        return;
+    }
+
     lastPos = pos;
 }
 
 function drawOnCanvas(x, y, color, ctx) {
-    // Returns before first mouse click && Returns if you don't start at the start box 
-    if (lastPos === null && getPixelColor(pos, ctx) === '255 254 1') return;
+    // Returns before first mouse click
+    if (lastPos === null) return;
 
     ctx.strokeStyle = color;
     ctx.lineWidth = 2;
@@ -74,17 +81,58 @@ function drawOnCanvas(x, y, color, ctx) {
     lastPos = { x: x, y: y };
 }
 
-function getPixelColor(pos, ctx) {
-    // Third atribute should be '0 0 0' for black
+function lineHitsWall(fromPos, toPos, ctx) {
+    // Gets distance between previous and current mouse position
+    const dx = toPos.x - fromPos.x;
+    const dy = toPos.y - fromPos.y;
+
+    // Calculates how many 1px checks are needed on this segment
+    const steps = Math.ceil(Math.max(Math.abs(dx), Math.abs(dy)));
+
+    // Checks each point on the segment for wall color
+    for (let i = 1; i <= steps; i++) {
+        // Normalized progress from 0 to 1
+        const t = i / steps;
+
+        // Calculates pixel position at current step
+        const pos = {
+            x: fromPos.x + (dx * t),
+            y: fromPos.y + (dy * t)
+        };
+
+        // Reads pixel color at the calculated position
+        const pixel = getPixelData(pos, ctx);
+
+        // Returns true as soon as a wall pixel is detected
+        if (isWallPixel(pixel)) return true;
+    }
+
+    // Returns false when no wall is touched
+    return false;
+}
+
+function isWallPixel(pixel) {
+    // Uses threshold so dark antialias pixels still count as wall
+    return pixel.r < 20 && pixel.g < 20 && pixel.b < 20;
+}
+
+function isStartPixel(pos, ctx) {
+    // Allows yellow shades for better reliability
+    const pixel = getPixelData(pos, ctx);
+    return pixel.r > 200 && pixel.g > 200 && pixel.b < 80;
+}
+
+function getPixelData(pos, ctx) {
 
     // Gets pixel data on pixel pos.x & pos.y, (1, 1 is the width and length of the rectangle)
     const pixel = ctx.getImageData(pos.x, pos.y, 1, 1);
 
-    // Puts the rgb values formated like "R G B" in to rgbColor
-    const rgbColor = `${pixel.data[0]} ${pixel.data[1]} ${pixel.data[2]}`;
-    console.log(rgbColor);
-    
-    return rgbColor;
+    // Returns pixel color as an RGB object
+    return {
+        r: pixel.data[0],
+        g: pixel.data[1],
+        b: pixel.data[2]
+    };
 }
 
 
@@ -93,14 +141,14 @@ function startTimer() {
         console.log('Timer running');
         time -= 100;
         if (time == 0) {
-            // Swal.fire({
-            //     title: 'Error!',
-            //     text: 'Do you want to continue',
-            //     icon: 'error',
-            //     confirmButtonText: 'OK'
-            // }).then(() => {
-            //     drawMaze('black', 'yellow', ctx);
-            // });
+            Swal.fire({
+                title: 'Time is up!',
+                text: 'Bomb exploded',
+                icon: 'error',
+                confirmButtonText: 'Try again?'
+            }).then(() => {
+                drawMaze('black', 'yellow', ctx);
+            });
             console.log('Time is up');
 
         } else
@@ -124,5 +172,3 @@ function resetTimer() {
     running = false;
     console.log('Timer reset');
 }
-
-
