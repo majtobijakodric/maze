@@ -27,7 +27,7 @@ function drawOnCanvas(x, y, color, ctx) {
     };
 }
 
-function lineHitsWall(fromPos, toPos, ctx) {
+function getLineHitType(fromPos, toPos, ctx) {
     // Gets distance between previous and current mouse position
     const dx = toPos.x - fromPos.x;
     const dy = toPos.y - fromPos.y;
@@ -49,12 +49,15 @@ function lineHitsWall(fromPos, toPos, ctx) {
         // Reads pixel color at the calculated position
         const pixel = getPixelData(pos, ctx);
 
-        // Returns true as soon as a wall pixel is detected
-        if (isWallPixel(pixel)) return true;
+        // Returns wall when a wall pixel is detected
+        if (isWallPixel(pixel)) return 'wall';
+
+        // Returns end when an end-box pixel is detected
+        if (isEndPixelColor(pixel)) return 'end';
     }
 
-    // Returns false when no wall is touched
-    return false;
+    // Returns null when no hit is detected
+    return null;
 }
 
 function isWallPixel(pixel) {
@@ -66,6 +69,17 @@ function isStartPixel(pos, ctx) {
     // Allows green shades for better reliability
     const pixel = getPixelData(pos, ctx);
     return pixel.r < 80 && pixel.g > 200 && pixel.b < 80;
+}
+
+function isEndPixel(pos, ctx) {
+    // Allows red shades for better reliability
+    const pixel = getPixelData(pos, ctx);
+    return isEndPixelColor(pixel);
+}
+
+function isEndPixelColor(pixel) {
+    // Uses threshold so antialias red still counts as end box
+    return pixel.r > 200 && pixel.g < 80 && pixel.b < 80;
 }
 
 function getPixelData(pos, ctx) {

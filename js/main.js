@@ -46,8 +46,10 @@ canvas.onmousemove = function (event) {
 
     const pos = mouse_pos(event);
 
-    // Checks if any point in this mouse segment touches a wall
-    if (lineHitsWall(lastPos, pos, ctx)) {
+    // Checks what this mouse segment hits first
+    const hitType = getLineHitType(lastPos, pos, ctx);
+
+    if (hitType === 'wall') {
         stopRound();
 
         Swal.fire({
@@ -60,6 +62,11 @@ canvas.onmousemove = function (event) {
         });
 
         console.log('Wall has been hit');
+        return;
+    }
+
+    if (hitType === 'end') {
+        handleRoundWin();
         return;
     }
 

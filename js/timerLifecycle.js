@@ -63,3 +63,17 @@ function handleTimeExpired() {
 
     console.log('Time is up');
 }
+
+function handleRoundWin() {
+    // Handles win state and resets after modal confirmation
+    stopRound();
+
+    Swal.fire({
+        title: 'You escaped!',
+        text: 'You reached the red goal with ' + Math.ceil(time / 1000) + 's left.',
+        icon: 'success',
+        confirmButtonText: 'Play again'
+    }).then(() => {
+        resetRoundState();
+    });
+}
