@@ -21,7 +21,10 @@ function drawOnCanvas(x, y, color, ctx) {
     ctx.lineTo(x, y);
     ctx.stroke();
 
-    lastPos = { x: x, y: y };
+    lastPos = {
+        x: x,
+        y: y
+    };
 }
 
 function lineHitsWall(fromPos, toPos, ctx) {

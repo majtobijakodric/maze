@@ -1,8 +1,40 @@
-// black = maze color, yellow = start box color
-resetRoundState();
+const canvas = document.getElementById('canvas');
+const startGameBtn = document.getElementById('start-game-btn');
+
+// Timer stuff
+const timeText = document.getElementById('timeText');
+const ROUND_DURATION_MS = 60000;
+let time = ROUND_DURATION_MS;
+let isRoundActive = false;
+let timerIntervalId = null;
+
+canvas.width = canvas.offsetWidth;
+canvas.height = canvas.offsetHeight;
+
+const ctx = canvas.getContext('2d', { willReadFrequently: true });
+let lastPos = null;
+
+resetRoundState(); // In timerLifecycle.js
 
 // Starts a new game round when user clicks start button
 startGameBtn.addEventListener('click', startRound);
+
+// When mouse clicks on canvas
+canvas.onmousedown = function (event) {
+
+    // Mouse clicks on canvas don't do anyting until the round is started
+    if (!isRoundActive) return;
+
+    let pos = mouse_pos(event);
+
+    // Start is allowed only on the yellow box
+    if (!isStartPixel(pos, ctx)) {
+        lastPos = null;
+        return;
+    }
+
+    lastPos = pos;
+}
 
 // When mouse moves on canvas
 canvas.onmousemove = function (event) {
@@ -17,10 +49,10 @@ canvas.onmousemove = function (event) {
         stopRound();
 
         Swal.fire({
-            title: 'Error!',
-            text: 'Do you want to continue',
+            title: 'You hit a wall!',
+            text: 'The path was blocked. Try again from the start.',
             icon: 'error',
-            confirmButtonText: 'OK'
+            confirmButtonText: 'Try again'
         }).then(() => {
             resetRoundState();
         });
@@ -32,17 +64,3 @@ canvas.onmousemove = function (event) {
     drawOnCanvas(pos.x, pos.y, 'yellow', ctx);
 }
 
-// When mouse clicks on canvas
-canvas.onmousedown = function (event) {
-    if (!isRoundActive) return;
-
-    let pos = mouse_pos(event);
-
-    // Start is allowed only on the yellow box
-    if (!isStartPixel(pos, ctx)) {
-        lastPos = null;
-        return;
-    }
-
-    lastPos = pos;
-}
