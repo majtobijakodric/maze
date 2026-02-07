@@ -1,10 +1,12 @@
 const canvas = document.getElementById('canvas');
+const startGameBtn = document.getElementById('start-game-btn');
 
 // Timer stuff
 const timeText = document.getElementById('timeText');
-let time = 60000; // 60 sec
-let running = true;
-
+const ROUND_DURATION_MS = 60000;
+let time = ROUND_DURATION_MS;
+let isRoundActive = false;
+let timerIntervalId = null;
 
 canvas.width = canvas.offsetWidth;
 canvas.height = canvas.offsetHeight;
@@ -12,10 +14,11 @@ canvas.height = canvas.offsetHeight;
 const ctx = canvas.getContext('2d', { willReadFrequently: true });
 let lastPos = null;
 
-let colorBoolean = true;
-
 // black = maze color, yellow = start box color
-drawMaze('black', 'yellow', ctx); // This function is called in drawMaze.js (drawMaze.js must load before main.js)
+resetRoundState();
+
+// Starts a new game round when user clicks start button
+startGameBtn.addEventListener('click', startRound);
 
 function mouse_pos(event) {
     const rect = canvas.getBoundingClientRect(); // Gets canvases position
@@ -29,6 +32,7 @@ function mouse_pos(event) {
 
 // When mouse moves on canvas
 canvas.onmousemove = function (event) {
+    if (!isRoundActive) return;
 
     if (lastPos === null) return;
 
@@ -36,13 +40,15 @@ canvas.onmousemove = function (event) {
 
     // Checks if any point in this mouse segment touches a wall
     if (lineHitsWall(lastPos, pos, ctx)) {
+        stopRound();
+
         Swal.fire({
             title: 'Error!',
             text: 'Do you want to continue',
             icon: 'error',
             confirmButtonText: 'OK'
         }).then(() => {
-            drawMaze('black', 'yellow', ctx);
+            resetRoundState();
         });
 
         console.log('Wall has been hit');
@@ -54,6 +60,8 @@ canvas.onmousemove = function (event) {
 
 // When mouse clicks on canvas
 canvas.onmousedown = function (event) {
+    if (!isRoundActive) return;
+
     let pos = mouse_pos(event);
 
     // Start is allowed only on the yellow box
@@ -135,40 +143,68 @@ function getPixelData(pos, ctx) {
     };
 }
 
+function updateTimerText() {
+    // Updates timer text in seconds
+    timeText.textContent = 'Time left: ' + Math.ceil(time / 1000);
+}
 
-function startTimer() {
-    if (running) {
-        console.log('Timer running');
-        time -= 100;
-        if (time == 0) {
-            Swal.fire({
-                title: 'Time is up!',
-                text: 'Bomb exploded',
-                icon: 'error',
-                confirmButtonText: 'Try again?'
-            }).then(() => {
-                drawMaze('black', 'yellow', ctx);
-            });
-            console.log('Time is up');
+function resetRoundState() {
+    // Resets game and timer state for a fresh round
+    time = ROUND_DURATION_MS;
+    lastPos = null;
+    drawMaze('black', 'yellow', ctx);
+    updateTimerText();
+}
 
-        } else
-            timeText.textContent = 'Time left ' + (time / 1000);
+function stopTimerInterval() {
+    // Clears running timer interval if it exists
+    if (timerIntervalId === null) return;
+
+    clearInterval(timerIntervalId);
+    timerIntervalId = null;
+}
+
+function stopRound() {
+    // Stops active round and blocks drawing
+    isRoundActive = false;
+    stopTimerInterval();
+    lastPos = null;
+}
+
+function startRound() {
+    // Prevents duplicate intervals and starts a fresh round
+    stopTimerInterval();
+    resetRoundState();
+    isRoundActive = true;
+    timerIntervalId = setInterval(tickTimer, 100);
+}
+
+function tickTimer() {
+    // Returns if round is not active
+    if (!isRoundActive) return;
+
+    time -= 100;
+    if (time < 0) time = 0;
+
+    updateTimerText();
+
+    if (time <= 0) {
+        handleTimeExpired();
     }
 }
 
-function pauseTimer() {
-    running = false;
-    console.log('Timer paused');
-}
+function handleTimeExpired() {
+    // Handles timeout state and resets after modal confirmation
+    stopRound();
 
-function resumeTimer() {
-    running = true;
-    console.log('Timer resumed');
-}
+    Swal.fire({
+        title: 'Time is up!',
+        text: 'The bomb exploded.',
+        icon: 'error',
+        confirmButtonText: 'Try again'
+    }).then(() => {
+        resetRoundState();
+    });
 
-function resetTimer() {
-    time = 60000;
-    timeText.textContent = 'Time left ' + (time / 1000);
-    running = false;
-    console.log('Timer reset');
+    console.log('Time is up');
 }
