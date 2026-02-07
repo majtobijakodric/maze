@@ -63,9 +63,9 @@ function isWallPixel(pixel) {
 }
 
 function isStartPixel(pos, ctx) {
-    // Allows yellow shades for better reliability
+    // Allows green shades for better reliability
     const pixel = getPixelData(pos, ctx);
-    return pixel.r > 200 && pixel.g > 200 && pixel.b < 80;
+    return pixel.r < 80 && pixel.g > 200 && pixel.b < 80;
 }
 
 function getPixelData(pos, ctx) {

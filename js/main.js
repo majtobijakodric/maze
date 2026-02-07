@@ -3,6 +3,8 @@ const startGameBtn = document.getElementById('start-game-btn');
 
 // Timer stuff
 const timeText = document.getElementById('timeText');
+const START_BOX_COLOR = '#00ff00';
+const END_BOX_COLOR = '#ff0000';
 const ROUND_DURATION_MS = 60000;
 let time = ROUND_DURATION_MS;
 let isRoundActive = false;
@@ -27,7 +29,7 @@ canvas.onmousedown = function (event) {
 
     let pos = mouse_pos(event);
 
-    // Start is allowed only on the yellow box
+    // Start is allowed only on the green box
     if (!isStartPixel(pos, ctx)) {
         lastPos = null;
         return;
@@ -63,4 +65,3 @@ canvas.onmousemove = function (event) {
 
     drawOnCanvas(pos.x, pos.y, 'yellow', ctx);
 }
-

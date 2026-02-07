@@ -7,7 +7,7 @@ function resetRoundState() {
     // Resets game and timer state for a fresh round
     time = ROUND_DURATION_MS;
     lastPos = null;
-    drawMaze('black', 'yellow', ctx);
+    drawMaze('black', START_BOX_COLOR, END_BOX_COLOR, ctx);
     updateTimerText();
 }
 

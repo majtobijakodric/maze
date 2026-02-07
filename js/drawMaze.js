@@ -1,4 +1,4 @@
-function drawMaze(color, startColor, ctx) {
+function drawMaze(color, startColor, endColor, ctx) {
     // All of the maze wall segments (x1,y1) -> (x2,y2)
     // These coordinates come from the 30x30 maze file.
     const mazeLines = [
@@ -470,9 +470,9 @@ function drawMaze(color, startColor, ctx) {
     ctx.scale(scaleX, scaleY);    
     */
    
-   // Draw the start box
-   drawStartSquare(startColor, startColor, 30, ctx);
-   drawGoalSquare(startColor, 30, ctx);
+   // Draw the start box & end box
+   drawStartSquare(startColor, 30, ctx);
+   drawGoalSquare(endColor, 30, ctx);
    
     ctx.strokeStyle = color;
     ctx.lineWidth = 2;
@@ -493,7 +493,7 @@ function drawMaze(color, startColor, ctx) {
     ctx.restore();
 }
 
-function drawStartSquare(color, startColor, mazeSize, ctx) {
+function drawStartSquare(startColor, mazeSize, ctx) {
     // mazeSize = maze dimensions
     const squareSize = (ctx.canvas.width / mazeSize) - 7;
     ctx.fillStyle = startColor;
