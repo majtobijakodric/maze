@@ -2,6 +2,9 @@ const canvas = document.getElementById('canvas');
 const startGameBtn = document.getElementById('start-game-btn');
 const howToPlay = document.getElementById('how-to-play-btn');
 
+// Background flowers
+const flowers = [...document.querySelectorAll('[id^="flower"]')];
+
 // Timer stuff
 const timeText = document.getElementById('timeText');
 const START_BOX_COLOR = '#00ff00';
@@ -17,7 +20,12 @@ canvas.height = canvas.offsetHeight;
 const ctx = canvas.getContext('2d', { willReadFrequently: true });
 let lastPos = null;
 
+randomFlowers(flowers);
+
 resetRoundState(); // In timerLifecycle.js
+
+// When the page is resized it mixes flowers again
+window.addEventListener('resize', () => randomFlowers(flowers));
 
 // Starts a new game round when user clicks start button
 startGameBtn.addEventListener('click', startRound);

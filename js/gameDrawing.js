@@ -94,3 +94,29 @@ function getPixelData(pos, ctx) {
         b: pixel.data[2]
     };
 }
+
+// Background flowers
+function randomFlowers(flowers) {
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+
+    flowers.forEach((flower) => {
+
+        // (|| 50) means that if offsetWidth is null, 0, undefined,... it becomes 50
+        const flowerWidth = flower.offsetWidth || 50;
+        const flowerHeight = flower.offsetHeight || 50;
+
+        // So flowers dont overflow
+        const maxX = Math.max(0, viewportWidth - flowerWidth);
+        const maxY = Math.max(0, viewportHeight - flowerHeight);
+
+        // Calculate the postion
+        const randomX = Math.floor(Math.random() * (maxX + 1));
+        const randomY = Math.floor(Math.random() * (maxY + 1));
+
+        // Set the position
+        flower.style.position = 'absolute';
+        flower.style.left = `${randomX}px`;
+        flower.style.top = `${randomY}px`;
+    });
+}
