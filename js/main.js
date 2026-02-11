@@ -1,5 +1,6 @@
 const canvas = document.getElementById('canvas');
 const startGameBtn = document.getElementById('start-game-btn');
+const howToPlay = document.getElementById('how-to-play-btn');
 
 // Timer stuff
 const timeText = document.getElementById('timeText');
@@ -20,6 +21,16 @@ resetRoundState(); // In timerLifecycle.js
 
 // Starts a new game round when user clicks start button
 startGameBtn.addEventListener('click', startRound);
+
+// Show the how to play menu when howToPlay button is clicked
+howToPlay.addEventListener('click', () => {
+    Swal.fire({
+        title: 'How to play',
+        text: 'You have 60 seconds. Start on the green box, avoid black walls, and reach the red box to win.',
+        icon: 'info',
+        confirmButtonText: 'Got it'
+    });
+});
 
 // When mouse clicks on canvas
 canvas.onmousedown = function (event) {
