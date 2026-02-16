@@ -3,7 +3,17 @@ const startGameBtn = document.getElementById('start-game-btn');
 const howToPlay = document.getElementById('how-to-play-btn');
 
 // Background flowers
-const flowers = [...document.querySelectorAll('[id^="flower"]')];
+const FLOWER_COUNT = 45;
+const ALL_FLOWER_NAMES = ['dandelion', 'poppy', 'blue_orchid', 'allium', 'azure_bluet', 'oxeye_daisy', 'lily_of_the_valley', 'cornflower', 'orange_tulip', 'pink_tulip', 'red_tulip', 'white_tulip', 'torchflower', 'sunflower_front', 'wildflowers'];
+
+const FLOWERS_TO_SPAWN = [];
+
+// push adds an element to the last place
+for (let i = 0; i < FLOWER_COUNT; i++) {
+    FLOWERS_TO_SPAWN.push(ALL_FLOWER_NAMES[i % ALL_FLOWER_NAMES.length]);
+}
+
+const flowers = spawnBackgroundFlowers(FLOWERS_TO_SPAWN);
 
 // Timer stuff
 const timeText = document.getElementById('timeText');
@@ -20,12 +30,12 @@ canvas.height = canvas.offsetHeight;
 const ctx = canvas.getContext('2d', { willReadFrequently: true });
 let lastPos = null;
 
-randomFlowers(flowers);
+randomizeFlowerPositions(flowers);
 
 resetRoundState(); // In timerLifecycle.js
 
 // When the page is resized it mixes flowers again
-window.addEventListener('resize', () => randomFlowers(flowers));
+window.addEventListener('resize', () => randomizeFlowerPositions(flowers));
 
 // Starts a new game round when user clicks start button
 startGameBtn.addEventListener('click', startRound);
