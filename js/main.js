@@ -1,6 +1,7 @@
 const canvas = document.getElementById('canvas');
 const startGameBtn = document.getElementById('start-game-btn');
 const howToPlay = document.getElementById('how-to-play-btn');
+const aboutBtn = document.getElementById('about-btn');
 
 // Random maze generation
 const width = 25;
@@ -74,13 +75,33 @@ howToPlay.addEventListener('click', () => {
     Swal.fire({
         title: 'How to play',
         text: 'You have 60 seconds. Click the green start block first, move only through white paths, avoid cobblestone walls, and reach the red goal block to win.',
-        imageUrl: './assets/torch_info_swal.png',
+        imageUrl: './assets/swal_icons/torch_info_swal.png',
         imageWidth: 64,
         imageHeight: 64,
         imageAlt: 'Minecraft torch',
         background: '#2b2b2b',
         color: '#f2f2f2',
         confirmButtonText: 'Got it'
+    });
+});
+
+// Show the about menu when aboutBtn button is clicked
+aboutBtn.addEventListener('click', () => {
+    Swal.fire({
+        title: 'About',
+        text: 'Author: Maj Tobija Kodric',
+        imageUrl: './assets/swal_icons/steve_head.png',
+        imageWidth: 120,
+        imageHeight: 96,
+        imageAlt: 'Steve head',
+        background: '#2b2b2b',
+        color: '#f2f2f2',
+        footer: '<a href="https://github.com/majtobijakodric/maze" target="_blank" rel="noopener noreferrer" style="color:#ffffff;text-decoration:underline;">GitHub</a>',
+        didOpen: () => {
+            const footer = document.querySelector('.swal2-footer');
+            if (footer) footer.style.borderTop = '0';
+        },
+        confirmButtonText: 'Close'
     });
 });
 
