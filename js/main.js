@@ -49,6 +49,9 @@ let lastPos = null;
 
 randomizeFlowerPositions(flowers);
 
+// Only generates a maze once when the page is loaded, not every time a round is reset
+createMaze();
+
 resetRoundState(); // In timerLifecycle.js
 
 // When the page is resized it mixes flowers again
@@ -73,7 +76,7 @@ canvas.onmousedown = function (event) {
     // Mouse clicks on canvas don't do anyting until the round is started
     if (!isRoundActive) return;
 
-    let pos = mouse_pos(event);
+    let pos = mousePos(event);
 
     // Start is allowed only on the green box
     if (!isStartPixel(pos, ctx)) {
@@ -90,7 +93,7 @@ canvas.onmousemove = function (event) {
 
     if (lastPos === null) return;
 
-    const pos = mouse_pos(event);
+    const pos = mousePos(event);
 
     // Checks what this mouse segment hits first
     const hitType = getLineHitType(lastPos, pos, ctx);

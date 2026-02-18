@@ -1,5 +1,9 @@
 // Made using this tutorial https://www.youtube.com/watch?v=Qfajj84oGUo&list=LL
 
+/*
+    VARIABLES ARE IN MAIN.JS
+*/
+
 
 // Call this function to do the whole thing
 function createMaze() {
