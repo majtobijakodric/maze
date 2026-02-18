@@ -11,6 +11,10 @@ const closed = 0;
 
 const openImg = './assets/block/white_wool.png';
 const closedImg = './assets/block/cobblestone.png';
+const startImg = './assets/block/green_wool.png';
+const endImg = './assets/block/red_wool.png';
+const START_TILE = { x: 1, y: 1 };
+const END_TILE = { x: width - 2, y: height - 2 };
 
 const container = document.getElementById('mazeDisplay');
 
@@ -18,6 +22,8 @@ const canvasID = 'canvas';
 
 let maze = [];
 
+// Tile size for hit detection
+const TILE_SIZE = 16;
 
 // Background flowers
 const FLOWER_COUNT = 45;
@@ -54,6 +60,9 @@ createMaze();
 
 resetRoundState(); // In timerLifecycle.js
 
+console.log(maze);
+
+
 // When the page is resized it mixes flowers again
 window.addEventListener('resize', () => randomizeFlowerPositions(flowers));
 
@@ -78,12 +87,22 @@ canvas.onmousedown = function (event) {
 
     let pos = mousePos(event);
 
-    // Start is allowed only on the green box
-    if (!isStartPixel(pos, ctx)) {
+    let mazeCoords = getMazeArrayCoords(pos.x, pos.y);
+    
+    // Start is allowed only on the green tile
+    if (!isStartTileAt(mazeCoords.x, mazeCoords.y)) {
         lastPos = null;
         return;
     }
 
+    // Old code (Fixed maze)
+    /*   
+     // Start is allowed only on the green box
+       if (!isStartPixel(pos, ctx)) {
+           lastPos = null;
+           return;
+       }
+    */
     lastPos = pos;
 }
 

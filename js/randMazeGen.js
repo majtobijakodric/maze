@@ -21,6 +21,10 @@ function createMaze() {
     // Recursively dig the starting location
     digAround(startX, startY);
 
+    // Force start and end tiles to be open
+    maze[START_TILE.y][START_TILE.x] = open;
+    maze[END_TILE.y][END_TILE.x] = open;
+
     // Draw the maze on the screan
     // drawMaze(); // draws many images (is faster than canvas)
     drawMazeCanvas(); // Draws images on canvas
@@ -65,7 +69,7 @@ function drawMazeCanvas() {
     const mazeCanvas = canvas;
     const mazeCtx = mazeCanvas.getContext('2d');
 
-    const tileSize = 16;
+    const tileSize = TILE_SIZE;
 
     mazeCanvas.width = width * tileSize;
     mazeCanvas.height = height * tileSize;
@@ -79,7 +83,11 @@ function drawMazeCanvas() {
             let tile = maze[i][j];
 
 
-            if (tile == closed) {
+            if (j === START_TILE.x && i === START_TILE.y) {
+                imageName = startImg;
+            } else if (j === END_TILE.x && i === END_TILE.y) {
+                imageName = endImg;
+            } else if (tile == closed) {
                 imageName = closedImg;
             } else {
                 imageName = openImg;
@@ -90,7 +98,7 @@ function drawMazeCanvas() {
 
             // Draw the tile after the image finishes loading
             image.onload = function () {
-                mazeCtx.drawImage(image, j * tileSize, i * tileSize, tileSize, tileSize);
+                mazeCtx.drawImage(image, j * tileSize, i * tileSize);
             }
 
             // Start loading the tile image source
