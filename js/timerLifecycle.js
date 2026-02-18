@@ -62,6 +62,8 @@ function handleTimeExpired() {
         title: 'Time is up!',
         text: 'The bomb exploded.',
         icon: 'error',
+        background: '#2b2b2b',
+        color: '#f2f2f2',
         confirmButtonText: 'Try again'
     }).then(() => {
         resetRoundState();
@@ -78,6 +80,8 @@ function handleRoundWin() {
         title: 'You escaped!',
         text: 'You reached the red goal with ' + Math.ceil(time / 1000) + 's left.',
         icon: 'success',
+        background: '#2b2b2b',
+        color: '#f2f2f2',
         confirmButtonText: 'Play again'
     }).then(() => {
         resetRoundState();

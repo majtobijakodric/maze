@@ -73,8 +73,13 @@ startGameBtn.addEventListener('click', startRound);
 howToPlay.addEventListener('click', () => {
     Swal.fire({
         title: 'How to play',
-        text: 'You have 60 seconds. Start on the green box, avoid black walls, and reach the red box to win.',
-        icon: 'info',
+        text: 'You have 60 seconds. Click the green start block first, move only through white paths, avoid cobblestone walls, and reach the red goal block to win.',
+        imageUrl: './assets/torch_info_swal.png',
+        imageWidth: 64,
+        imageHeight: 64,
+        imageAlt: 'Minecraft torch',
+        background: '#2b2b2b',
+        color: '#f2f2f2',
         confirmButtonText: 'Got it'
     });
 });
@@ -124,6 +129,8 @@ canvas.onmousemove = function (event) {
             title: 'You hit a wall!',
             text: 'The path was blocked. Try again from the start.',
             icon: 'error',
+            background: '#2b2b2b',
+            color: '#f2f2f2',
             confirmButtonText: 'Try again'
         }).then(() => {
             resetRoundState();
