@@ -2,6 +2,23 @@ const canvas = document.getElementById('canvas');
 const startGameBtn = document.getElementById('start-game-btn');
 const howToPlay = document.getElementById('how-to-play-btn');
 
+// Random maze generation
+const width = 25;
+const height = 25;
+
+const open = 1;
+const closed = 0;
+
+const openImg = './assets/block/white_wool.png';
+const closedImg = './assets/block/cobblestone.png';
+
+const container = document.getElementById('mazeDisplay');
+
+const canvasID = 'canvas';
+
+let maze = [];
+
+
 // Background flowers
 const FLOWER_COUNT = 45;
 const ALL_FLOWER_NAMES = ['dandelion', 'poppy', 'blue_orchid', 'allium', 'azure_bluet', 'oxeye_daisy', 'lily_of_the_valley', 'cornflower', 'orange_tulip', 'pink_tulip', 'red_tulip', 'white_tulip', 'torchflower', 'sunflower_front', 'wildflowers'];
@@ -10,7 +27,7 @@ const FLOWERS_TO_SPAWN = [];
 
 // push adds an element to the last place
 for (let i = 0; i < FLOWER_COUNT; i++) {
-    FLOWERS_TO_SPAWN.push(ALL_FLOWER_NAMES[i % ALL_FLOWER_NAMES.length]);
+    FLOWERS_TO_SPAWN.push(ALL_FLOWER_NAMES[Math.floor(Math.random() * ALL_FLOWER_NAMES.length)]);
 }
 
 const flowers = spawnBackgroundFlowers(FLOWERS_TO_SPAWN);

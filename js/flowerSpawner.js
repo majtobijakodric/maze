@@ -1,3 +1,18 @@
+function spawnBackgroundFlowers(flowerNames) {
+    // Get the flowers layer div
+    const layer = document.getElementById('flowers-layer');
+
+    // Create and append flower elements for each flower name
+    flowerNames.forEach((flowerName, index) => {
+        // Flower is put on the page here
+        layer.appendChild(createFlowerElement(flowerName, index));
+    });
+
+    // Return array of all flower elements
+    return [...layer.querySelectorAll('.background-flowers')];
+}
+
+// Here flower isn't actually put on the page, just created and returned
 function createFlowerElement(flowerName, index) {
     // Create an image element for the flower
     const flower = document.createElement('img');
@@ -15,26 +30,6 @@ function createFlowerElement(flowerName, index) {
     flower.alt = flowerName;
 
     return flower;
-}
-
-function spawnBackgroundFlowers(flowerNames) {
-    // Get the flowers layer container
-    const layer = document.getElementById('flowers-layer');
-
-    // Exit early if layer doesn't exist
-    if (!layer)
-        return [];
-
-    // Clear existing flowers
-    layer.innerHTML = '';
-
-    // Create and append flower elements for each flower name
-    flowerNames.forEach((flowerName, index) => {
-        layer.appendChild(createFlowerElement(flowerName, index));
-    });
-
-    // Return array of all flower elements
-    return [...layer.querySelectorAll('.background-flowers')];
 }
 
 function randomizeFlowerPositions(flowers) {

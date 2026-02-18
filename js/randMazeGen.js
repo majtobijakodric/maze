@@ -1,17 +1,7 @@
-// https://www.youtube.com/watch?v=Qfajj84oGUo&list=LL
+// Made using this tutorial https://www.youtube.com/watch?v=Qfajj84oGUo&list=LL
 
 
-const width = 21;
-const height = 21;
-
-const open = 1;
-const closed = 0;
-
-const open_img = '../assets/block/white_wool.png';
-const closed_img = '../assets/block/cobblestone.png';
-
-let maze = [];
-
+// Call this function to do the whole thing
 function createMaze() {
     // Draw the whole maze with closed tiles (reset maze)
     maze = create2Darray(width, height, closed);
@@ -28,12 +18,15 @@ function createMaze() {
     digAround(startX, startY);
 
     // Draw the maze on the screan
-    drawMaze();
-    drawMazeCanvas();
+    // drawMaze(); // draws many images (is faster than canvas)
+    drawMazeCanvas(); // Draws images on canvas
 }
 
+/*
+// 
+// This draws images
+// 
 function drawMaze() {
-    const container = document.getElementById('mazeDisplay');
 
     // clear previous maze
     container.innerHTML = '';
@@ -46,9 +39,9 @@ function drawMaze() {
             let tile = maze[i][j];
 
             if (tile == closed) {
-                imageName = closed_img;
+                imageName = closedImg;
             } else {
-                imageName = open_img;
+                imageName = openImg;
             }
 
             let element = document.createElement('img');
@@ -61,17 +54,18 @@ function drawMaze() {
         container.appendChild(br);
     }
 }
+ */
 
 function drawMazeCanvas() {
     // Get maze canvas
-    const canvas = document.getElementById('mazeCanvas');
-    const ctx = canvas.getContext('2d');
+    const mazeCanvas = canvas;
+    const mazeCtx = mazeCanvas.getContext('2d');
 
     const tileSize = 16;
 
-    canvas.width = width * tileSize;
-    canvas.height = height * tileSize;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    mazeCanvas.width = width * tileSize;
+    mazeCanvas.height = height * tileSize;
+    mazeCtx.clearRect(0, 0, mazeCanvas.width, mazeCanvas.height);
 
     for (let i = 0; i < maze.length; i++) {
         for (let j = 0; j < maze[i].length; j++) {
@@ -82,9 +76,9 @@ function drawMazeCanvas() {
 
 
             if (tile == closed) {
-                imageName = closed_img;
+                imageName = closedImg;
             } else {
-                imageName = open_img;
+                imageName = openImg;
             }
 
             // Create an image object for this tile
@@ -92,7 +86,7 @@ function drawMazeCanvas() {
 
             // Draw the tile after the image finishes loading
             image.onload = function () {
-                ctx.drawImage(image, j * tileSize, i * tileSize, tileSize, tileSize);
+                mazeCtx.drawImage(image, j * tileSize, i * tileSize, tileSize, tileSize);
             }
 
             // Start loading the tile image source
@@ -111,7 +105,7 @@ function digAround(x, y) {
         { x: x, y: y + 2 }  // Down
     ];
 
-    neighbors = shuffle_array(neighbors);
+    neighbors = shuffleArray(neighbors);
 
     neighbors.forEach(element => {
         digTo(element.x, element.y, x, y);
@@ -168,7 +162,7 @@ function randomInt(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
-function shuffle_array(array) {
+function shuffleArray(array) {
     // Copy our original array, so we don't mutate the original
     let copy = [];
     for (let i = 0; i < array.length; i++) {
