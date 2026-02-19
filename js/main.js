@@ -89,14 +89,13 @@ howToPlay.addEventListener('click', () => {
 aboutBtn.addEventListener('click', () => {
     Swal.fire({
         title: 'About',
-        text: 'Author: Maj Tobija Kodric',
+        html: 'Author: Maj Tobija Kodric <br> <a href="https://github.com/majtobijakodric/maze" target="_blank" rel="noopener noreferrer" style="color:#ffffff;text-decoration:underline;">GitHub</a>',
         imageUrl: './assets/swal_icons/steve_head.png',
         imageWidth: 120,
         imageHeight: 96,
         imageAlt: 'Steve head',
         background: '#2b2b2b',
         color: '#f2f2f2',
-        footer: '<a href="https://github.com/majtobijakodric/maze" target="_blank" rel="noopener noreferrer" style="color:#ffffff;text-decoration:underline;">GitHub</a>',
         didOpen: () => {
             const footer = document.querySelector('.swal2-footer');
             if (footer) footer.style.borderTop = '0';
@@ -114,7 +113,7 @@ canvas.onmousedown = function (event) {
     let pos = mousePos(event);
 
     let mazeCoords = getMazeArrayCoords(pos.x, pos.y);
-    
+
     // Start is allowed only on the green tile
     if (!isStartTileAt(mazeCoords.x, mazeCoords.y)) {
         lastPos = null;
