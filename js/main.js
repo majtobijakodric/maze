@@ -4,8 +4,8 @@ const howToPlay = document.getElementById('how-to-play-btn');
 const aboutBtn = document.getElementById('about-btn');
 
 // Random maze generation
-const width = 25;
-const height = 25;
+const width = 5;
+const height = 5;
 
 const open = 1;
 const closed = 0;
@@ -14,6 +14,10 @@ const openImg = './assets/block/white_wool.png';
 const closedImg = './assets/block/cobblestone.png';
 const startImg = './assets/block/green_wool.png';
 const endImg = './assets/block/red_wool.png';
+const howToPlaySwalImageUrl = './assets/swal_icons/torch_info_swal.png';
+const aboutSwalImageUrl = './assets/swal_icons/steve_head.png';
+const tntSwalImageUrl = './assets/swal_icons/tnt.png';
+const winSwalImageUrl = './assets/swal_icons/diamond_block.png';
 const START_TILE = { x: 1, y: 1 };
 const END_TILE = { x: width - 2, y: height - 2 };
 
@@ -63,7 +67,6 @@ resetRoundState(); // In timerLifecycle.js
 
 console.log(maze);
 
-
 // When the page is resized it mixes flowers again
 window.addEventListener('resize', () => randomizeFlowerPositions(flowers));
 
@@ -74,8 +77,8 @@ startGameBtn.addEventListener('click', startRound);
 howToPlay.addEventListener('click', () => {
     Swal.fire({
         title: 'How to play',
-        text: 'You have 60 seconds. Click the green start block first, move only through white paths, avoid cobblestone walls, and reach the red goal block to win.',
-        imageUrl: './assets/swal_icons/torch_info_swal.png',
+        text: `You have ${ROUND_DURATION_MS / 1000} seconds. Click the green start block first, move only through white paths, avoid cobblestone walls, and reach the red goal block to win.`,
+        imageUrl: howToPlaySwalImageUrl,
         imageWidth: 64,
         imageHeight: 64,
         imageAlt: 'Minecraft torch',
@@ -90,7 +93,7 @@ aboutBtn.addEventListener('click', () => {
     Swal.fire({
         title: 'About',
         html: 'Author: Maj Tobija Kodric <br> <a href="https://github.com/majtobijakodric/maze" target="_blank" rel="noopener noreferrer" style="color:#ffffff;text-decoration:underline;">GitHub</a>',
-        imageUrl: './assets/swal_icons/steve_head.png',
+        imageUrl: aboutSwalImageUrl,
         imageWidth: 120,
         imageHeight: 96,
         imageAlt: 'Steve head',
@@ -148,7 +151,10 @@ canvas.onmousemove = function (event) {
         Swal.fire({
             title: 'You hit a wall!',
             text: 'The path was blocked. Try again from the start.',
-            icon: 'error',
+            imageUrl: tntSwalImageUrl,
+            imageWidth: 64,
+            imageHeight: 64,
+            imageAlt: 'Minecraft tnt',
             background: '#2b2b2b',
             color: '#f2f2f2',
             confirmButtonText: 'Try again'
@@ -167,3 +173,4 @@ canvas.onmousemove = function (event) {
 
     drawOnCanvas(pos.x, pos.y, 'yellow', ctx);
 }
+
