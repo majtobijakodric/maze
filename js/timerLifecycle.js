@@ -78,7 +78,7 @@ function handleRoundWin() {
 
     Swal.fire({
         title: 'You escaped!',
-        text: 'You reached the red goal with ' + Math.ceil(time / 1000) + 's left.',
+        text: 'You reached the red goal with ' + Math.ceil(time / 1000) + ' s left.',
         icon: 'success',
         background: '#2b2b2b',
         color: '#f2f2f2',
