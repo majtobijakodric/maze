@@ -1,4 +1,18 @@
-    :root {
+@font-face {
+    font-family: "Minecraft";
+    src: url("../assets/minecraft-font/MinecraftRegular-Bmg3.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Minecraft";
+    src: url("../assets/minecraft-font/MinecraftBold-nMK1.otf") format("opentype");
+    font-weight: 700;
+    font-style: normal;
+}
+
+:root {
     --mc-grass-light: #8fbf4d;
     --mc-grass-mid: #6ea13c;
     --mc-grass-dark: #4f7e2c;
@@ -30,12 +44,12 @@
 body {
     height: 100vh;
     color: var(--mc-text);
-    background-color: var(--mc-dirt-mid);
     background-image:
         url('../assets/block/moss_block.png'),
         url('../assets/block/grass_block_top.png');
     background-size: 64px 64px, 64px 64px;
     background-repeat: repeat, repeat;
+    /* This makes images not smooth (keeps pixels sharp). */
     image-rendering: pixelated;
 }
 
