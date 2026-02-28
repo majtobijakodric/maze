@@ -1,13 +1,25 @@
 <h1 align="center">Escape Maze</h1>
 
+<p align="center">
+  <a href="https://majtobijakodric.github.io/maze/">🟢 Play Live</a>
+</p>
+
 A Minecraft-themed browser maze game built with vanilla HTML, CSS, and JavaScript. A random maze is generated on every page load using a recursive backtracker algorithm, rendered tile-by-tile on an HTML5 canvas with Minecraft texture-pack sprites. You have 60 seconds to draw a path from the green start block to the red goal block without touching any cobblestone walls.
 
 ### Table of Contents
+- [Screenshots](#screenshots)
 - [Features](#features)
 - [Tech Stack](#tech-stack)
 - [Project Structure](#project-structure)
 - [Setup and Usage](#setup-and-usage)
 - [License](#license)
+##
+
+### Screenshots
+
+| Before Starting | Game in Progress |
+|:-:|:-:|
+| ![Main screen showing the Minecraft-styled maze with Start Game, How To Play, and About buttons](https://github.com/user-attachments/assets/ae883477-75e8-437e-b73a-7f6f6caf9648) | ![Game in progress with the 60-second countdown running](https://github.com/user-attachments/assets/7dfca946-9a81-4de7-b3a3-868c94174e6c) |
 ##
 
 ### Features
@@ -58,3 +70,6 @@ maze/
    ```
 2. **Launch a static server** – Use the VS Code Live Server extension, or open [majtobijakodric.github.io/maze/](https://majtobijakodric.github.io/maze/).
 3. **Play** – Click **Start Game**, click the green tile, and draw a path to the red tile before time runs out.
+
+### License
+This project is licensed under the [MIT License](LICENSE).
