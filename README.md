@@ -17,9 +17,9 @@ A Minecraft-themed browser maze game built with vanilla HTML, CSS, and JavaScrip
 
 ### Screenshots
 
-| Before Starting | Game in Progress |
-|:-:|:-:|
-| ![Main screen showing the Minecraft-styled maze with Start Game, How To Play, and About buttons](https://github.com/user-attachments/assets/ae883477-75e8-437e-b73a-7f6f6caf9648) | ![Game in progress with the 60-second countdown running](https://github.com/user-attachments/assets/7dfca946-9a81-4de7-b3a3-868c94174e6c) |
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/7dfca946-9a81-4de7-b3a3-868c94174e6c" alt="Game in progress with the 60-second countdown running" width="90%">
+</p>
 ##
 
 ### Features
