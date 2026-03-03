@@ -70,7 +70,10 @@ function handleTimeExpired() {
     Swal.fire({
         title: 'Time is up!',
         text: 'The bomb exploded.',
-        icon: 'error',
+        imageUrl: tntSwalImageUrl,
+        imageWidth: 64,
+        imageHeight: 64,
+        imageAlt: 'Minecraft tnt',
         background: '#2b2b2b',
         color: '#f2f2f2',
         confirmButtonText: 'Try again'
@@ -87,8 +90,11 @@ function handleRoundWin() {
 
     Swal.fire({
         title: 'You escaped!',
-        text: 'You reached the red goal with ' + Math.ceil(time / 1000) + 's left.',
-        icon: 'success',
+        text: 'You reached the red goal with ' + Math.ceil(time / 1000) + ' s left.',
+        imageUrl: winSwalImageUrl,
+        imageWidth: 64,
+        imageHeight: 64,
+        imageAlt: 'Diamond block',
         background: '#2b2b2b',
         color: '#f2f2f2',
         confirmButtonText: 'Play again'
@@ -96,3 +102,4 @@ function handleRoundWin() {
         resetRoundState();
     });
 }
+
