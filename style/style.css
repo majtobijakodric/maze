@@ -85,14 +85,19 @@ h1 {
 }
 
 #timeText {
-    color: var(--mc-ui-accent);
+    color: var(--mc-text);
     text-shadow: 2px 2px 0 var(--mc-outline);
-    margin: 0 0 0 auto;
+    margin: 0;
+    font-size: 30px;
+    min-width: 190px;
+    text-align: left;
+    font-variant-numeric: tabular-nums;
 }
 
 #buttons-div {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 14px;
     width: 100%;
     margin-top: 16px;

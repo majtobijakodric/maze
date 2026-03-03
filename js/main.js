@@ -48,6 +48,9 @@ let time = ROUND_DURATION_MS;
 let isRoundActive = false;
 let timerIntervalId = null;
 
+// Cave sounds
+const CAVE_SOUND_FIRE_COUNT = 2;
+
 canvas.width = canvas.offsetWidth;
 canvas.height = canvas.offsetHeight;
 
@@ -69,6 +72,17 @@ window.addEventListener('resize', () => randomizeFlowerPositions(flowers));
 
 // Starts a new game round when user clicks start button
 startGameBtn.addEventListener('click', startRound);
+
+// Plays click sound for every button on the page
+document.addEventListener('click', (event) => {
+    const clickedButton = event.target.closest('button');
+
+    if (clickedButton && clickedButton !== startGameBtn) {
+        playButtonClickSound();
+    }
+});
+
+setCaveSoundFireCount(CAVE_SOUND_FIRE_COUNT);
 
 // Show the how to play menu when howToPlay button is clicked
 howToPlay.addEventListener('click', () => {

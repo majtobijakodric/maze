@@ -30,6 +30,7 @@ function stopRound() {
     isRoundActive = false;
     stopTimerInterval();
     lastPos = null;
+    stopRoundAudio();
 }
 
 function startRound() {
@@ -37,6 +38,7 @@ function startRound() {
     stopTimerInterval();
     resetRoundState();
     isRoundActive = true;
+    startRoundAudio();
     timerIntervalId = setInterval(tickTimer, 100);
 }
 
@@ -47,6 +49,10 @@ function tickTimer() {
     time -= 100;
     if (time < 0) time = 0;
 
+    if (time === 4000) {
+        startTntCountdownAudio();
+    }
+
     updateTimerText();
 
     if (time <= 0) {
@@ -56,7 +62,10 @@ function tickTimer() {
 
 function handleTimeExpired() {
     // Handles timeout state and resets after modal confirmation
-    stopRound();
+    stopRoundAudio(true);
+    isRoundActive = false;
+    stopTimerInterval();
+    lastPos = null;
 
     Swal.fire({
         title: 'Time is up!',
