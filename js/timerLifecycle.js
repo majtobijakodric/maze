@@ -8,9 +8,6 @@ function resetRoundState() {
     time = ROUND_DURATION_MS;
     lastPos = null;
 
-    // This is the old static maze
-    // drawMaze('black', START_BOX_COLOR, END_BOX_COLOR, ctx);
-
     // Redraws the maze if the round is reset but don't generate a new one
     drawMazeCanvas();
 
