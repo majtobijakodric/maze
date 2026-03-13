@@ -9,7 +9,7 @@ function spawnBackgroundFlowers(flowerNames) {
     });
 
     // Return array of all flower elements
-    return [...layer.querySelectorAll('.background-flowers')];
+    return Array.from(layer.querySelectorAll('.background-flowers'));
 }
 
 // Here flower isn't actually put on the page, just created and returned

@@ -109,7 +109,7 @@ function drawMazeCanvas() {
 }
 
 function digAround(x, y) {
-    maze[y][x] = open;
+    maze[y][x] = open;  
     let neighbors = [
         { x: x - 2, y: y }, // Left
         { x: x + 2, y: y }, // Right
@@ -134,9 +134,9 @@ function digTo(destX, destY, fromX, fromY) {
         return;
 
     // If we haven't already dug in this direction
-    let dest = maze[destY][destX];
-    let mid = maze[midY][midX];
-    if (dest == closed && mid == closed) {
+    let dest = maze[destY][destX]; // 1 | 0
+    let mid = maze[midY][midX]; // 1 | 0
+    if (dest == closed && mid == closed) { // closed = 1, open = 0
 
         // Try to dig it
         maze[destY][destX] = open;

@@ -3,7 +3,7 @@ const startGameBtn = document.getElementById('start-game-btn');
 const howToPlay = document.getElementById('how-to-play-btn');
 const aboutBtn = document.getElementById('about-btn');
 
-// Random maze generation
+// Random maze size (must be odd)
 const width = 25;
 const height = 25;
 
@@ -26,6 +26,9 @@ const container = document.getElementById('mazeDisplay');
 const canvasID = 'canvas';
 
 let maze = [];
+
+// draw path color
+const PATH_COLOR = 'black';
 
 // Tile size for hit detection
 const TILE_SIZE = 16;
@@ -185,6 +188,6 @@ canvas.onmousemove = function (event) {
         return;
     }
 
-    drawOnCanvas(pos.x, pos.y, 'yellow', ctx);
+    drawOnCanvas(pos.x, pos.y, PATH_COLOR, ctx);
 }
 

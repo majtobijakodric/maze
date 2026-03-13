@@ -89,7 +89,7 @@ function drawOnCanvas(x, y, color, ctx) {
     if (lastPos === null) return;
 
     ctx.strokeStyle = color;
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 1;
     ctx.lineCap = 'butt';
 
     ctx.beginPath();
