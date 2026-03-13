@@ -84,27 +84,6 @@ function getLineHitType(fromPos, toPos) {
     return null;
 }
 
-// Original code drawing on canvas
-
-// function drawOnCanvas(x, y, color, ctx) {
-//     // Returns before first mouse click
-//     if (lastPos === null) return;
-
-//     ctx.strokeStyle = color;
-//     ctx.lineWidth = 1;
-//     ctx.lineCap = 'butt';
-
-//     ctx.beginPath();
-//     ctx.moveTo(lastPos.x, lastPos.y);
-//     ctx.lineTo(x, y);
-//     ctx.stroke();
-
-//     lastPos = {
-//         x: x,
-//         y: y
-//     };
-// }
-
 function drawOnCanvas(x, y, color, ctx) {
     // Returns before first mouse click
     if (lastPos === null) return;
