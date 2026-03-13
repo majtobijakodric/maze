@@ -4,8 +4,8 @@ const howToPlay = document.getElementById('how-to-play-btn');
 const aboutBtn = document.getElementById('about-btn');
 
 // Random maze size (must be odd)
-const width = 25;
-const height = 25;
+const width = 5;
+const height = 5;
 
 const open = 1;
 const closed = 0;
@@ -163,8 +163,8 @@ canvas.onmousemove = function (event) {
     const hitType = getLineHitType(lastPos, pos, ctx);
 
     if (hitType === 'wall') {
+        playOneShot('wood_click.mp3');
         stopRound();
-
         Swal.fire({
             title: 'You hit a wall!',
             text: 'The path was blocked. Try again from the start.',
@@ -184,6 +184,7 @@ canvas.onmousemove = function (event) {
     }
 
     if (hitType === 'end') {
+        playOneShot('challenge_complete.mp3');
         handleRoundWin();
         return;
     }
