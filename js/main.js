@@ -4,8 +4,8 @@ const howToPlay = document.getElementById('how-to-play-btn');
 const aboutBtn = document.getElementById('about-btn');
 
 // Random maze size (must be odd)
-const width = 50;
-const height = 50;
+const width = 101;
+const height = 101;
 
 const open = 1;
 const closed = 0;
