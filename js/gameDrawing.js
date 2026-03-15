@@ -116,12 +116,10 @@ function drawOnCanvas(x, y, color, ctx) {
 }
 
 function cancelReverseReplay() {
-    activeReplayToken += 1;
+    if (replayTimeoutId === null) return;
 
-    if (replayAnimationFrameId === null) return;
-
-    clearTimeout(replayAnimationFrameId);
-    replayAnimationFrameId = null;
+    clearTimeout(replayTimeoutId);
+    replayTimeoutId = null;
 }
 
 function drawReplaySegment(segment, color, ctx) {
@@ -138,7 +136,6 @@ function replayDrawSaltReverse(ctx, durationMs = 5000) {
     // Stops any older reverse replay before starting a new one
     cancelReverseReplay();
 
-    const replayToken = activeReplayToken;
     const totalSegments = drawSalt.length;
 
     // Returns immediately when there is nothing to replay
@@ -155,15 +152,9 @@ function replayDrawSaltReverse(ctx, durationMs = 5000) {
     // so code like await replayDrawSaltReverse(ctx) can pause until it ends.
     return new Promise((resolve) => {
         function drawNextSegment(segmentIndex) {
-            // Stops this replay when a newer replay has replaced it
-            if (replayToken !== activeReplayToken) {
-                resolve();
-                return;
-            }
-
             // Finishes replay after all segments have been drawn in reverse order
             if (segmentIndex < 0) {
-                replayAnimationFrameId = null;
+                replayTimeoutId = null;
                 drawSalt = [];
                 resolve();
                 return;
@@ -173,7 +164,7 @@ function replayDrawSaltReverse(ctx, durationMs = 5000) {
             drawReplaySegment(drawSalt[segmentIndex], END_BOX_COLOR, ctx);
 
             // Waits a little before drawing the next reverse segment
-            replayAnimationFrameId = setTimeout(() => {
+            replayTimeoutId = setTimeout(() => {
                 drawNextSegment(segmentIndex - 1);
             }, pauseTimeMs);
         }

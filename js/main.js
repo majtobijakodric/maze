@@ -12,8 +12,7 @@ const closed = 0;
 
 // For keeping track of drawing coordinates 
 let drawSalt = [];
-let replayAnimationFrameId = null;
-let activeReplayToken = 0;
+let replayTimeoutId = null;
 
 const openImg = './assets/block/white_wool.png';
 const closedImg = './assets/block/cobblestone.png';
