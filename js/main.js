@@ -10,6 +10,11 @@ const height = 25;
 const open = 1;
 const closed = 0;
 
+// For keeping track of drawing coordinates 
+let drawSalt = [];
+let replayAnimationFrameId = null;
+let activeReplayToken = 0;
+
 const openImg = './assets/block/white_wool.png';
 const closedImg = './assets/block/cobblestone.png';
 const startImg = './assets/block/green_wool.png';
@@ -71,7 +76,7 @@ createMaze();
 
 resetRoundState(); // In timerLifecycle.js
 
-console.log(maze);
+// console.log(maze);
 
 // When the page is resized it mixes flowers again
 window.addEventListener('resize', () => randomizeFlowerPositions(flowers));
@@ -184,6 +189,7 @@ canvas.onmousemove = function (event) {
     }
 
     if (hitType === 'end') {
+        drawOnCanvas(pos.x, pos.y, PATH_COLOR, ctx);
         playOneShot('challenge_complete.mp3');
         handleRoundWin();
         return;
@@ -191,4 +197,3 @@ canvas.onmousemove = function (event) {
 
     drawOnCanvas(pos.x, pos.y, PATH_COLOR, ctx);
 }
-

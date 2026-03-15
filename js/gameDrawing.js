@@ -88,20 +88,99 @@ function drawOnCanvas(x, y, color, ctx) {
     // Returns before first mouse click
     if (lastPos === null) return;
 
-    let randomSalt = getRandomOffset(x, y);
+    const randomSalt = getRandomOffset(x, y);
+    const lineWidth = Math.random() * 2 + 0.5;
+    const drawSegment = {
+        startX: randomSalt.x,
+        startY: randomSalt.y,
+        endX: randomSalt.x + 1,
+        endY: randomSalt.y + 1,
+        lineWidth: lineWidth
+    };
 
     ctx.strokeStyle = color;
-    ctx.lineWidth = Math.random() * 2 + 0.5; // Random line width between 0.5 and 2.5
+    ctx.lineWidth = lineWidth; // Random line width between 0.5 and 2.5
     ctx.lineCap = 'butt';
     ctx.beginPath();
-    ctx.moveTo(randomSalt.x, randomSalt.y);
-    ctx.lineTo(randomSalt.x + 1, randomSalt.y + 1); // Random end point within a small area
+    ctx.moveTo(drawSegment.startX, drawSegment.startY);
+    ctx.lineTo(drawSegment.endX, drawSegment.endY); // Random end point within a small area
     ctx.stroke();
+
+    // Store the segment so it can be replayed exactly later.
+    drawSalt.push(drawSegment);
 
     lastPos = {
         x: x,
         y: y
     };
+}
+
+function cancelReverseReplay() {
+    activeReplayToken += 1;
+
+    if (replayAnimationFrameId === null) return;
+
+    clearTimeout(replayAnimationFrameId);
+    replayAnimationFrameId = null;
+}
+
+function drawReplaySegment(segment, color, ctx) {
+    ctx.strokeStyle = color;
+    ctx.lineWidth = segment.lineWidth;
+    ctx.lineCap = 'butt';
+    ctx.beginPath();
+    ctx.moveTo(segment.endX, segment.endY);
+    ctx.lineTo(segment.startX, segment.startY);
+    ctx.stroke();
+}
+
+function replayDrawSaltReverse(ctx, durationMs = 5000) {
+    // Stops any older reverse replay before starting a new one
+    cancelReverseReplay();
+
+    const replayToken = activeReplayToken;
+    const totalSegments = drawSalt.length;
+
+    // Returns immediately when there is nothing to replay
+    if (totalSegments === 0) {
+        return Promise.resolve();
+    }
+
+    // Splits the total replay time evenly across all saved segments
+    const pauseTimeMs = durationMs / totalSegments;
+
+    // Returns a Promise because this replay does not finish immediately.
+    // It draws one saved segment, waits a little, then draws the next one.
+    // The Promise is resolved only after the full reverse replay is done,
+    // so code like await replayDrawSaltReverse(ctx) can pause until it ends.
+    return new Promise((resolve) => {
+        function drawNextSegment(segmentIndex) {
+            // Stops this replay when a newer replay has replaced it
+            if (replayToken !== activeReplayToken) {
+                resolve();
+                return;
+            }
+
+            // Finishes replay after all segments have been drawn in reverse order
+            if (segmentIndex < 0) {
+                replayAnimationFrameId = null;
+                drawSalt = [];
+                resolve();
+                return;
+            }
+
+            // Draws one saved segment, starting from the end of the path
+            drawReplaySegment(drawSalt[segmentIndex], END_BOX_COLOR, ctx);
+
+            // Waits a little before drawing the next reverse segment
+            replayAnimationFrameId = setTimeout(() => {
+                drawNextSegment(segmentIndex - 1);
+            }, pauseTimeMs);
+        }
+
+        // Starts replay from the last drawn segment
+        drawNextSegment(totalSegments - 1);
+    });
 }
 
 function getRandomOffset(x, y) {
@@ -111,4 +190,3 @@ function getRandomOffset(x, y) {
         y: Math.round(y + (Math.random() - 0.5) * 7)  // Offset y by up to ±3.5
     };
 }
-

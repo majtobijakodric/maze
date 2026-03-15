@@ -7,6 +7,8 @@ function resetRoundState() {
     // Resets game and timer state for a fresh round
     time = ROUND_DURATION_MS;
     lastPos = null;
+    drawSalt = [];
+    cancelReverseReplay();
 
     // Redraws the maze if the round is reset but don't generate a new one
     drawMazeCanvas();
@@ -81,9 +83,10 @@ function handleTimeExpired() {
     console.log('Time is up');
 }
 
-function handleRoundWin() {
-    // Handles win state and resets after modal confirmation
+async function handleRoundWin() {
+    // Handles win state by replaying the path, showing the win modal, and then resetting
     stopRound();
+    await replayDrawSaltReverse(ctx);
 
     Swal.fire({
         title: 'You escaped!',
@@ -99,4 +102,3 @@ function handleRoundWin() {
         resetRoundState();
     });
 }
-
