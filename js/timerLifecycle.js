@@ -86,9 +86,13 @@ function handleTimeExpired() {
 async function handleRoundWin() {
     // Handles win state by replaying the path, showing the win modal, and then resetting
     stopRound();
-    await replayDrawSaltReverse(ctx);
-    particleTrigger(8, 14, 1.2);
+    await replayDrawSaltReverse(ctx, REDRAW_TIME_MS);
+
+    particleTrigger(Math.floor(width / 2), Math.floor(height / 2), 1.5);
+
     playOneShot('challenge_complete.mp3');
+
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
     Swal.fire({
         title: 'You escaped!',

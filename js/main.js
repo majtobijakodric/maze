@@ -4,13 +4,15 @@ const howToPlay = document.getElementById('how-to-play-btn');
 const aboutBtn = document.getElementById('about-btn');
 
 // Random maze size (must be odd)
-const width = 15;
-const height = 15;
+const width = 25;
+const height = 25;
 
 const open = 1;
 const closed = 0;
 
 const TNT_COUNT = 5;
+
+const REDRAW_TIME_MS = 1000;
 
 // For keeping track of drawing coordinates 
 let drawSalt = [];

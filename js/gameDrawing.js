@@ -132,7 +132,7 @@ function drawReplaySegment(segment, color, ctx) {
     ctx.stroke();
 }
 
-function replayDrawSaltReverse(ctx, durationMs = 5000) {
+function replayDrawSaltReverse(ctx, durationMs = 2000) {
     // Stops any older reverse replay before starting a new one
     cancelReverseReplay();
 
