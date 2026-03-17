@@ -4,19 +4,22 @@ const howToPlay = document.getElementById('how-to-play-btn');
 const aboutBtn = document.getElementById('about-btn');
 
 // Random maze size (must be odd)
-const width = 25;
-const height = 25;
+const size = 25;
+const width = size;
+const height = size;
 
 const open = 1;
 const closed = 0;
 
 const TNT_COUNT = 5;
+const TNT_SCALE = 2.5;
 
 const REDRAW_TIME_MS = 1000;
 
 // For keeping track of drawing coordinates 
 let drawSalt = [];
-let replayTimeoutId = null;
+let replayAnimationFrameId = null;
+let replayResolve = null;
 
 const openImg = './assets/block/white_wool.png';
 const closedImg = './assets/block/cobblestone.png';

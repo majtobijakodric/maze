@@ -88,7 +88,7 @@ async function handleRoundWin() {
     stopRound();
     await replayDrawSaltReverse(ctx, REDRAW_TIME_MS);
 
-    particleTrigger(Math.floor(width / 2), Math.floor(height / 2), 1.5);
+    particleTrigger(Math.floor(width / 2), Math.floor(height / 2), TNT_SCALE);
 
     playOneShot('challenge_complete.mp3');
 

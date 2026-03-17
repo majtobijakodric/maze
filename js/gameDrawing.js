@@ -116,10 +116,16 @@ function drawOnCanvas(x, y, color, ctx) {
 }
 
 function cancelReverseReplay() {
-    if (replayTimeoutId === null) return;
+    if (replayAnimationFrameId !== null) {
+        cancelAnimationFrame(replayAnimationFrameId);
+        replayAnimationFrameId = null;
+    }
 
-    clearTimeout(replayTimeoutId);
-    replayTimeoutId = null;
+    if (replayResolve !== null) {
+        const resolve = replayResolve;
+        replayResolve = null;
+        resolve();
+    }
 }
 
 function drawReplaySegment(segment, color, ctx) {
@@ -132,45 +138,70 @@ function drawReplaySegment(segment, color, ctx) {
     ctx.stroke();
 }
 
-function replayDrawSaltReverse(ctx, durationMs = 2000) {
+function replayDrawSaltReverse(ctx, durationMs) {
     // Stops any older reverse replay before starting a new one
     cancelReverseReplay();
 
-    const totalSegments = drawSalt.length;
+    const segments = drawSalt.slice();
+    const totalSegments = segments.length;
 
     // Returns immediately when there is nothing to replay
     if (totalSegments === 0) {
         return Promise.resolve();
     }
 
-    // Splits the total replay time evenly across all saved segments
-    const pauseTimeMs = durationMs / totalSegments;
+    // Draws everything immediately when duration is zero or negative
+    if (durationMs <= 0) {
+        for (let i = totalSegments - 1; i >= 0; i--) {
+            drawReplaySegment(segments[i], END_BOX_COLOR, ctx);
+        }
 
-    // Returns a Promise because this replay does not finish immediately.
-    // It draws one saved segment, waits a little, then draws the next one.
-    // The Promise is resolved only after the full reverse replay is done,
-    // so code like await replayDrawSaltReverse(ctx) can pause until it ends.
+        drawSalt = [];
+        return Promise.resolve();
+    }
+
+    // Returns a Promise because this replay is spread over animation frames.
+    // The number of segments redrawn is based on elapsed time, so the total
+    // replay length stays close to durationMs regardless of maze size.
     return new Promise((resolve) => {
-        function drawNextSegment(segmentIndex) {
-            // Finishes replay after all segments have been drawn in reverse order
-            if (segmentIndex < 0) {
-                replayTimeoutId = null;
-                drawSalt = [];
-                resolve();
+        let drawnCount = 0;
+        const startTime = performance.now();
+
+        replayResolve = resolve;
+
+        function finishReplay() {
+            while (drawnCount < totalSegments) {
+                const segmentIndex = totalSegments - 1 - drawnCount;
+                drawReplaySegment(segments[segmentIndex], END_BOX_COLOR, ctx);
+                drawnCount++;
+            }
+
+            replayAnimationFrameId = null;
+            replayResolve = null;
+            drawSalt = [];
+            resolve();
+        }
+
+        function drawFrame(now) {
+            const elapsedMs = now - startTime;
+            const progress = Math.min(elapsedMs / durationMs, 1);
+            const targetDrawnCount = Math.floor(progress * totalSegments);
+
+            while (drawnCount < targetDrawnCount) {
+                const segmentIndex = totalSegments - 1 - drawnCount;
+                drawReplaySegment(segments[segmentIndex], END_BOX_COLOR, ctx);
+                drawnCount++;
+            }
+
+            if (progress >= 1) {
+                finishReplay();
                 return;
             }
 
-            // Draws one saved segment, starting from the end of the path
-            drawReplaySegment(drawSalt[segmentIndex], END_BOX_COLOR, ctx);
-
-            // Waits a little before drawing the next reverse segment
-            replayTimeoutId = setTimeout(() => {
-                drawNextSegment(segmentIndex - 1);
-            }, pauseTimeMs);
+            replayAnimationFrameId = requestAnimationFrame(drawFrame);
         }
 
-        // Starts replay from the last drawn segment
-        drawNextSegment(totalSegments - 1);
+        replayAnimationFrameId = requestAnimationFrame(drawFrame);
     });
 }
 
