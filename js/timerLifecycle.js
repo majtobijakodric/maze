@@ -87,6 +87,8 @@ async function handleRoundWin() {
     // Handles win state by replaying the path, showing the win modal, and then resetting
     stopRound();
     await replayDrawSaltReverse(ctx);
+    particleTrigger(8, 14, 1.2);
+    playOneShot('challenge_complete.mp3');
 
     Swal.fire({
         title: 'You escaped!',

@@ -1,15 +1,27 @@
+/* all font variations that are in assets/minecraft-fonts*/
+
 @font-face {
-    font-family: "Minecraft";
-    src: url("../assets/minecraft-font/MinecraftRegular-Bmg3.otf") format("opentype");
+    font-family: "Minecraft-400";
+    src: url("../assets/minecraft-font/MinecraftRegular-9qZP.otf") format("opentype");
     font-weight: 400;
-    font-style: normal;
 }
 
 @font-face {
-    font-family: "Minecraft";
+    font-family: "Minecraft-500";
+    src: url("../assets/minecraft-font/MinecraftMedium-9qZP.otf") format("opentype");
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: "Minecraft-700-bold";
+    src: url("../assets/minecraft-font/MinecraftBold-9qZP.otf") format("opentype");
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: "Minecraft-700";
     src: url("../assets/minecraft-font/MinecraftBold-nMK1.otf") format("opentype");
     font-weight: 700;
-    font-style: normal;
 }
 
 :root {
@@ -24,6 +36,7 @@
     --mc-stone-dark: #575757;
     --mc-outline: #1d1d1d;
     --mc-text: #f2f2f2;
+    --mc-text-timer: #e0c01f;
     --mc-ui-accent: #c9e265;
     --mc-shadow-hard: rgba(0, 0, 0, 0.45);
     --mc-highlight-hard: rgba(255, 255, 255, 0.2);
@@ -100,16 +113,16 @@ h1 {
 
 #timeText {
     display: inline-flex;
+    justify-content: center;
     align-items: center;
-    color: var(--mc-text);
+    color: var(--mc-text-timer);
     text-shadow: 2px 2px 0 var(--mc-outline);
     margin: 0;
     font-size: 24px;
-    line-height: 1;
-    min-width: 120px;
+    line-height: 1.33;
+    flex: 1;
     text-align: left;
     font-variant-numeric: tabular-nums;
-    transform: translateY(-5px);
 }
 
 #buttons-div {

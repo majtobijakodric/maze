@@ -28,7 +28,7 @@ button {
     z-index: 1;
     user-select: none;
     cursor: pointer;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     letter-spacing: 1px;
     white-space: unset;
     padding: 0.8rem 1.5rem;

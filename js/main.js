@@ -4,11 +4,13 @@ const howToPlay = document.getElementById('how-to-play-btn');
 const aboutBtn = document.getElementById('about-btn');
 
 // Random maze size (must be odd)
-const width = 25;
-const height = 25;
+const width = 15;
+const height = 15;
 
 const open = 1;
 const closed = 0;
+
+const TNT_COUNT = 5;
 
 // For keeping track of drawing coordinates 
 let drawSalt = [];
@@ -117,7 +119,7 @@ aboutBtn.addEventListener('click', () => {
         imageUrl: aboutSwalImageUrl,
         imageWidth: 120,
         imageHeight: 96,
-        imageAlt: 'Steve head',
+        imageAlt: 'Steve body',
         background: '#2b2b2b',
         color: '#f2f2f2',
         didOpen: () => {
@@ -189,7 +191,6 @@ canvas.onmousemove = function (event) {
 
     if (hitType === 'end') {
         drawOnCanvas(pos.x, pos.y, PATH_COLOR, ctx);
-        playOneShot('challenge_complete.mp3');
         handleRoundWin();
         return;
     }
