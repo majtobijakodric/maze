@@ -1,60 +1,123 @@
 <h1 align="center">Escape Maze</h1>
 
-A Minecraft-themed browser maze game built with vanilla HTML, CSS, and JavaScript. A random maze is generated on every page load using a recursive backtracker algorithm, rendered tile-by-tile on an HTML5 canvas with Minecraft texture-pack sprites. You have 60 seconds to draw a path from the green start block to the red goal block without touching any cobblestone walls.
+<p align="left">
+A Minecraft-themed browser maze game built with vanilla HTML, CSS, and JavaScript. Each run generates a fresh maze, lets the player draw a path from the green start tile to the red goal tile, and layers in Minecraft-style textures, ambient cave audio, timer pressure, reverse-path replay, and an obsidian win animation.
+</p>
+
+---
 
 ### Table of Contents
+
 - [Features](#features)
+- [Screenshots](#screenshots)
 - [Tech Stack](#tech-stack)
 - [Project Structure](#project-structure)
 - [Setup and Usage](#setup-and-usage)
+- [Notes](#notes)
+- [Author](#author)
 - [License](#license)
-##
 
-### Features
-- **Random Maze Generation** – A new 25×25 maze is carved on every page load using a recursive backtracker (depth-first search) algorithm.
-- **Canvas-Rendered Tilemap** – Each cell is drawn as a 16×16 Minecraft texture (cobblestone for walls, white wool for paths, green/red wool for start/end).
-- **Draw-to-Solve Mechanic** – Click the start tile and drag through the open paths; per-pixel hit detection catches wall collisions instantly.
-- **60-Second Countdown Timer** – A ticking timer adds pressure; if it hits zero the round ends with an explosion alert.
-- **SweetAlert2 Modals** – Themed pop-ups for "How to play", "About", win, and loss states with Minecraft-style dark UI.
-- **Animated Background Flowers** – 45 randomly placed Minecraft flower sprites are scattered across the viewport and re-shuffled on resize.
-- **Minecraft UI Styling** – Custom Minecraft font, pixelated tiled background (moss + grass), dark panel frames, and chunky green arcade buttons.
-##
+---
 
-### Tech Stack
-- HTML5 for structure and canvas element
-- CSS3 (custom properties, Flexbox, pixelated rendering) for Minecraft-themed styling
-- Vanilla JavaScript for maze generation, canvas drawing, hit detection, and timer logic
-- SweetAlert2 for styled modal dialogs
-##
+## Features
 
-### Project Structure
-```
+- **Random Maze Generation** - A new 21x21 maze is carved on page load using a recursive backtracker algorithm.
+- **Canvas-Based Draw Gameplay** - Start on the green tile, drag through valid paths, and lose instantly if the cursor crosses a wall.
+- **60-Second Survival Timer** - Each round is timed, with a final TNT countdown sound in the last seconds.
+- **Minecraft Presentation** - Texture-pack tiles, pixel fonts, flower-filled backgrounds, and chunky UI styling shape the whole experience.
+- **Audio-Driven Game Feel** - Button clicks, orb start audio, cave ambience, TNT countdown, and win sounds reinforce each state.
+- **Win Animation Sequence** - A successful run replays the drawn path in reverse, triggers particles, and transforms the maze into obsidian.
+- **SweetAlert2 Menus and Feedback** - How-to-play, about, win, and loss states are shown with themed modal dialogs.
+
+---
+
+## Screenshots
+
+![Overview](assets/maze-overview.png)
+*Full page view showing the Minecraft-styled maze, flowers in the background, and the control buttons under the canvas.*
+
+![Gameplay](assets/maze-gameplay.png)
+*An active round with the player drawing through the maze from the green start tile toward the red goal tile.*
+
+![Win State](assets/maze-win-state.png)
+*The post-win obsidian maze effect with the completed path replay and celebration visuals.*
+
+![How To Play Modal](assets/maze-how-to-play-modal.png)
+*The themed instruction modal that explains the rules, timer, and movement constraints.*
+
+---
+
+## Tech Stack
+
+- **HTML5** - Page structure, canvas, buttons, and modal trigger points
+- **CSS3** - Custom properties, layout, Minecraft-inspired styling, and pixel rendering
+- **Vanilla JavaScript** - Maze generation, path validation, timer flow, particles, and audio control
+- **SweetAlert2** - Styled modal dialogs for instructions, about, win, and loss states
+
+---
+
+## Project Structure
+
+```text
 maze/
 ├── index.html
 ├── LICENSE
 ├── README.md
 ├── assets/
-│   ├── block/              # Minecraft texture-pack PNGs (wool, cobblestone, flowers, etc.)
-│   ├── favicons/           # Favicon set and web manifest
-│   └── swal_icons/         # Custom icons for SweetAlert2 modals
+│   ├── block/              # Minecraft textures used for maze tiles and background flowers
+│   ├── favicons/           # Browser favicon set and web manifest
+│   ├── minecraft-font/     # Local Minecraft font files
+│   ├── sound/              # Button, cave, TNT, orb, and win audio
+│   └── swal_icons/         # Images used inside SweetAlert2 dialogs
 ├── js/
-│   ├── main.js             # App entry point, constants, event listeners
-│   ├── randMazeGen.js      # Recursive backtracker maze generation + canvas renderer
-│   ├── drawMaze.js         # Legacy static maze drawing (line segments)
-│   ├── gameDrawing.js      # Mouse tracking, hit detection, canvas line drawing
-│   ├── flowerSpawner.js    # Background flower element creation and positioning
-│   └── timerLifecycle.js   # Timer start/stop/tick, win and loss handlers
+│   ├── audioManager.js     # Round audio, ambience scheduling, and sound effects
+│   ├── flowerSpawner.js    # Flower creation and random background placement
+│   ├── gameDrawing.js      # Mouse tracking, wall detection, and reverse-path replay
+│   ├── main.js             # App setup, constants, event listeners, and modal wiring
+│   ├── mazeObsidian.js     # Obsidian end-state rendering after a win
+│   ├── particle.js         # Pixel explosion overlay and animation loop
+│   ├── randMazeGen.js      # Recursive backtracker maze generation and canvas tile drawing
+│   └── timerLifecycle.js   # Round timer, reset flow, timeout handling, and win sequence
 └── style/
-    ├── style.css           # Layout, theming, canvas frame, flower layer
-    └── buttons.css         # Minecraft-style arcade button effects
+    ├── buttons.css         # Pixel-style button appearance and interactions
+    └── style.css           # Layout, panel styling, canvas sizing, and background theme
 ```
-##
 
-### Setup and Usage
+---
+
+## Setup and Usage
+
 1. **Clone the repository**
    ```bash
    git clone https://github.com/majtobijakodric/maze.git
    cd maze
    ```
-2. **Launch a static server** – Use the VS Code Live Server extension, or open [majtobijakodric.github.io/maze/](https://majtobijakodric.github.io/maze/).
-3. **Play** – Click **Start Game**, click the green tile, and draw a path to the red tile before time runs out.
+
+2. **Open the project in a browser**
+   - Use a local static server such as VS Code Live Server, or any simple HTTP server.
+
+3. **Play the game**
+   - Click **Start Game** to begin the round.
+   - Click the green start tile first.
+   - Drag only through open path tiles and reach the red goal tile before time runs out.
+
+---
+
+## Notes
+
+- The maze is generated once on load, and each round reset redraws the same layout instead of generating a new one.
+- Collision detection checks the mouse path segment against maze tiles, so touching a wall ends the run immediately.
+- Winning a round triggers a reverse replay of the drawn path, then swaps the maze visuals to obsidian before showing the win modal.
+- For the screenshot section above, create the image files inside `assets/` using the exact names shown there.
+
+---
+
+## Author
+
+**Maj Tobija Kodric**
+
+---
+
+## License
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
