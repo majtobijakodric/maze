@@ -88,10 +88,14 @@ async function handleRoundWin() {
     stopRound();
     await replayDrawSaltReverse(ctx, REDRAW_TIME_MS);
 
+    // Particles
     particleTrigger(Math.floor(width / 2), Math.floor(height / 2), TNT_SCALE);
 
+    fillObsidian(); // Redraw maze with obsidian for win effect
+    // Sound effect
     playOneShot('challenge_complete.mp3');
 
+    // Timeout
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
     Swal.fire({

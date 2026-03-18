@@ -4,7 +4,7 @@ const howToPlay = document.getElementById('how-to-play-btn');
 const aboutBtn = document.getElementById('about-btn');
 
 // Random maze size (must be odd)
-const size = 25;
+const size = 21;
 const width = size;
 const height = size;
 
@@ -12,9 +12,10 @@ const open = 1;
 const closed = 0;
 
 const TNT_COUNT = 5;
-const TNT_SCALE = 2.5;
+const TNT_SCALE = 3;
 
-const REDRAW_TIME_MS = 1000;
+// Time it takes to redraw the salt
+const REDRAW_TIME_MS = 2000;
 
 // For keeping track of drawing coordinates 
 let drawSalt = [];
@@ -25,6 +26,8 @@ const openImg = './assets/block/white_wool.png';
 const closedImg = './assets/block/cobblestone.png';
 const startImg = './assets/block/green_wool.png';
 const endImg = './assets/block/red_wool.png';
+const obsidianImg = './assets/block/obsidian.png';
+const crying_obsidianImg = './assets/block/crying_obsidian.png';
 const howToPlaySwalImageUrl = './assets/swal_icons/torch_info_swal.png';
 const aboutSwalImageUrl = './assets/swal_icons/steve_head.png';
 const tntSwalImageUrl = './assets/swal_icons/tnt.png';
