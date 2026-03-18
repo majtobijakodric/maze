@@ -12,7 +12,7 @@ const open = 1;
 const closed = 0;
 
 const TNT_COUNT = 5;
-const TNT_SCALE = 3;
+const TNT_SCALE = 1.5;
 
 // Time it takes to redraw the salt
 const REDRAW_TIME_MS = 2000;

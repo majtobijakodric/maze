@@ -90,8 +90,10 @@ async function handleRoundWin() {
 
     // Particles
     particleTrigger(Math.floor(width / 2), Math.floor(height / 2), TNT_SCALE);
+    
+    // Redraw maze with obsidian for win effect
+    fillObsidian();
 
-    fillObsidian(); // Redraw maze with obsidian for win effect
     // Sound effect
     playOneShot('challenge_complete.mp3');
 
