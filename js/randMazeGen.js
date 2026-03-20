@@ -10,7 +10,7 @@ function createMaze() {
     // Draw the whole maze with closed tiles (reset maze)
     maze = create2Darray(width, height, closed);
 
-    // Figure out where to strat
+    // Figure out where to start
     let startX = randomInt(1, width - 1);
     let startY = randomInt(1, height - 1);
 

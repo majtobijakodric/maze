@@ -108,7 +108,7 @@ setCaveSoundFireCount(CAVE_SOUND_FIRE_COUNT);
 howToPlay.addEventListener('click', () => {
     Swal.fire({
         title: 'How to play',
-        text: `You have ${ROUND_DURATION_MS / 1000} seconds. Click the green start block first, move only through white paths, avoid cobblestone walls, and reach the red goal block to win.`,
+        text: `You have ${ROUND_DURATION_MS / 1000} seconds. Click start game to begin. Click the green start block first, move only through white paths, avoid cobblestone walls, and reach the red goal block to win.`,
         imageUrl: howToPlaySwalImageUrl,
         imageWidth: 64,
         imageHeight: 64,
@@ -123,7 +123,7 @@ howToPlay.addEventListener('click', () => {
 aboutBtn.addEventListener('click', () => {
     Swal.fire({
         title: 'About',
-        html: 'Author: Maj Tobija Kodric <br> <a href="https://github.com/majtobijakodric/maze" target="_blank" rel="noopener noreferrer" style="color:#ffffff;text-decoration:underline;">GitHub</a>',
+        html: 'Author: Maj Tobija Kodric <br> Textures: Minecraft <br> <a href="https://github.com/majtobijakodric/maze" target="_blank" rel="noopener noreferrer" style="color:#ffffff;text-decoration:underline;">GitHub</a>',
         imageUrl: aboutSwalImageUrl,
         imageWidth: 120,
         imageHeight: 96,

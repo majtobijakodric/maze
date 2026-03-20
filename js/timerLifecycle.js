@@ -102,7 +102,7 @@ async function handleRoundWin() {
 
     Swal.fire({
         title: 'You escaped!',
-        text: 'You reached the red goal with ' + Math.ceil(time / 1000) + ' s left.',
+        text: 'You reached the red goal with ' + Math.ceil(time / 1000) + ' seconds left.',
         imageUrl: winSwalImageUrl,
         imageWidth: 64,
         imageHeight: 64,
